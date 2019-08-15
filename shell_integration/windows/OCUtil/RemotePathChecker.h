@@ -34,7 +34,9 @@ public:
         StateOk, StateOkSWM,
         StateSync,
         StateWarning,
-        StateNone
+        StateNone,
+        //liuwentao 添加新的覆盖图标类型
+        StateClose
     };
     RemotePathChecker();
     ~RemotePathChecker();

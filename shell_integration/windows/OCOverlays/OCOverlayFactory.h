@@ -21,7 +21,9 @@ enum State {
     State_Error = 0,
     State_OK, State_OKShared,
     State_Sync, 
-    State_Warning
+    State_Warning,
+    //liuwentao 添加新的覆盖图标类型
+    State_Close
 };
 
 class OCOverlayFactory : public IClassFactory

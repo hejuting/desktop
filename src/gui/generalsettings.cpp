@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) by Daniel Molkentin <danimo@owncloud.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -48,7 +48,8 @@ GeneralSettings::GeneralSettings(QWidget *parent)
         this, &GeneralSettings::slotToggleOptionalServerNotifications);
     _ui->serverNotificationsCheckBox->setToolTip(tr("Server notifications that require attention."));
 
-    connect(_ui->showInExplorerNavigationPaneCheckBox, &QAbstractButton::toggled, this, &GeneralSettings::slotShowInExplorerNavigationPane);
+	 //liuwentao 注释掉设置中不需要的部分
+    //connect(_ui->showInExplorerNavigationPaneCheckBox, &QAbstractButton::toggled, this, &GeneralSettings::slotShowInExplorerNavigationPane);
 
     _ui->autostartCheckBox->setChecked(Utility::hasLaunchOnStartup(Theme::instance()->appName()));
     connect(_ui->autostartCheckBox, &QAbstractButton::toggled, this, &GeneralSettings::slotToggleLaunchOnStartup);
@@ -60,41 +61,48 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     _ui->aboutLabel->setOpenExternalLinks(true);
 
     // About legal notice
-    connect(_ui->legalNoticeButton, &QPushButton::clicked, this, &GeneralSettings::slotShowLegalNotice);
+	//liuwentao 没有做标记，但注释掉了，也不知道为啥┓( ´∀` )┏
+    //connect(_ui->legalNoticeButton, &QPushButton::clicked, this, &GeneralSettings::slotShowLegalNotice);
 
     loadMiscSettings();
-    slotUpdateInfo();
+    //liuwentao 注释掉设置中不需要的部分
+    //slotUpdateInfo();
 
     // misc
     connect(_ui->monoIconsCheckBox, &QAbstractButton::toggled, this, &GeneralSettings::saveMiscSettings);
-    connect(_ui->crashreporterCheckBox, &QAbstractButton::toggled, this, &GeneralSettings::saveMiscSettings);
-    connect(_ui->newFolderLimitCheckBox, &QAbstractButton::toggled, this, &GeneralSettings::saveMiscSettings);
-    connect(_ui->newFolderLimitSpinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &GeneralSettings::saveMiscSettings);
-    connect(_ui->newExternalStorage, &QAbstractButton::toggled, this, &GeneralSettings::saveMiscSettings);
+    //liuwentao 注释掉设置中不需要的部分
+    //connect(_ui->crashreporterCheckBox, &QAbstractButton::toggled, this, &GeneralSettings::saveMiscSettings);
+    //connect(_ui->newFolderLimitCheckBox, &QAbstractButton::toggled, this, &GeneralSettings::saveMiscSettings);
+    //connect(_ui->newFolderLimitSpinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &GeneralSettings::saveMiscSettings);
+    //connect(_ui->newExternalStorage, &QAbstractButton::toggled, this, &GeneralSettings::saveMiscSettings);
 
 #ifndef WITH_CRASHREPORTER
-    _ui->crashreporterCheckBox->setVisible(false);
+    //liuwentao 没有做标记，但注释掉了，也不知道为啥┓( ´∀` )┏
+    //_ui->crashreporterCheckBox->setVisible(false);
 #endif
 
     // Hide on non-Windows, or WindowsVersion < 10.
     // The condition should match the default value of ConfigFile::showInExplorerNavigationPane.
 #ifdef Q_OS_WIN
-    if (QSysInfo::windowsVersion() < QSysInfo::WV_WINDOWS10)
+    //liuwentao 没有做标记，但注释掉了，也不知道为啥┓( ´∀` )┏
+    //if (QSysInfo::windowsVersion() < QSysInfo::WV_WINDOWS10)
 #endif
-        _ui->showInExplorerNavigationPaneCheckBox->setVisible(false);
+    //liuwentao 没有做标记，但注释掉了，也不知道为啥┓( ´∀` )┏
+        //_ui->showInExplorerNavigationPaneCheckBox->setVisible(false);
 
     /* Set the left contents margin of the layout to zero to make the checkboxes
      * align properly vertically , fixes bug #3758
      */
-    int m0, m1, m2, m3;
-    _ui->horizontalLayout_3->getContentsMargins(&m0, &m1, &m2, &m3);
-    _ui->horizontalLayout_3->setContentsMargins(0, m1, m2, m3);
+    //liuwentao 没有做标记，但注释掉了，也不知道为啥┓( ´∀` )┏
+    //int m0, m1, m2, m3;
+    //_ui->horizontalLayout_3->getContentsMargins(&m0, &m1, &m2, &m3);
+    //_ui->horizontalLayout_3->setContentsMargins(0, m1, m2, m3);
 
     // OEM themes are not obliged to ship mono icons, so there
     // is no point in offering an option
     _ui->monoIconsCheckBox->setVisible(Theme::instance()->monoIconsAvailable());
-
-    connect(_ui->ignoredFilesButton, &QAbstractButton::clicked, this, &GeneralSettings::slotIgnoreFilesEditor);
+    //liuwentao 注释掉设置中不需要的部分
+    //connect(_ui->ignoredFilesButton, &QAbstractButton::clicked, this, &GeneralSettings::slotIgnoreFilesEditor);
 
     // accountAdded means the wizard was finished and the wizard might change some options.
     connect(AccountManager::instance(), &AccountManager::accountAdded, this, &GeneralSettings::loadMiscSettings);
@@ -117,12 +125,13 @@ void GeneralSettings::loadMiscSettings()
     ConfigFile cfgFile;
     _ui->monoIconsCheckBox->setChecked(cfgFile.monoIcons());
     _ui->serverNotificationsCheckBox->setChecked(cfgFile.optionalServerNotifications());
-    _ui->showInExplorerNavigationPaneCheckBox->setChecked(cfgFile.showInExplorerNavigationPane());
-    _ui->crashreporterCheckBox->setChecked(cfgFile.crashReporter());
-    auto newFolderLimit = cfgFile.newBigFolderSizeLimit();
-    _ui->newFolderLimitCheckBox->setChecked(newFolderLimit.first);
-    _ui->newFolderLimitSpinBox->setValue(newFolderLimit.second);
-    _ui->newExternalStorage->setChecked(cfgFile.confirmExternalStorage());
+    //liuwentao 注释掉设置中不需要的部分
+    //_ui->showInExplorerNavigationPaneCheckBox->setChecked(cfgFile.showInExplorerNavigationPane());
+    //_ui->crashreporterCheckBox->setChecked(cfgFile.crashReporter());
+    //auto newFolderLimit = cfgFile.newBigFolderSizeLimit();
+    //_ui->newFolderLimitCheckBox->setChecked(newFolderLimit.first);
+    //_ui->newFolderLimitSpinBox->setValue(newFolderLimit.second);
+    //_ui->newExternalStorage->setChecked(cfgFile.confirmExternalStorage());
     _ui->monoIconsCheckBox->setChecked(cfgFile.monoIcons());
 }
 

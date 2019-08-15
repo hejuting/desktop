@@ -108,14 +108,16 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     GeneralSettings *generalSettings = new GeneralSettings;
     _ui->stack->addWidget(generalSettings);
 
-    QAction *networkAction = createColorAwareAction(QLatin1String(":/client/resources/network.png"), tr("Network"));
-    _actionGroup->addAction(networkAction);
-    _toolBar->addAction(networkAction);
-    NetworkSettings *networkSettings = new NetworkSettings;
-    _ui->stack->addWidget(networkSettings);
+	 //2018-11-27 liuwentao 注释掉切换到客户端网络设置标签页的按钮
+    //QAction *networkAction = createColorAwareAction(QLatin1String(":/client/resources/network.png"), tr("Network"));
+    //_actionGroup->addAction(networkAction);
+    //_toolBar->addAction(networkAction);
+    //NetworkSettings *networkSettings = new NetworkSettings;
+    //_ui->stack->addWidget(networkSettings);
 
     _actionGroupWidgets.insert(generalAction, generalSettings);
-    _actionGroupWidgets.insert(networkAction, networkSettings);
+    //2018-11-27 liuwentao 注释掉切换到客户端网络设置标签页的按钮
+    //_actionGroupWidgets.insert(networkAction, networkSettings);
 
     foreach(auto ai, AccountManager::instance()->accounts()) {
         accountAdded(ai.data());
@@ -246,24 +248,30 @@ void SettingsDialog::accountAdded(AccountState *s)
     }
 
     _toolBar->insertAction(_actionBefore, accountAction);
+    //2018-11-27 liuwentao 暂时注释掉账户按钮选项页的内容
     auto accountSettings = new AccountSettings(s, this);
     _ui->stack->insertWidget(0, accountSettings);
-    _actionGroup->addAction(accountAction);
-    _actionGroupWidgets.insert(accountAction, accountSettings);
-    _actionForAccount.insert(s->account().data(), accountAction);
-    accountAction->trigger();
 
-    connect(accountSettings, &AccountSettings::folderChanged, _gui, &ownCloudGui::slotFoldersChanged);
-    connect(accountSettings, &AccountSettings::openFolderAlias,
-        _gui, &ownCloudGui::slotFolderOpenAction);
-    connect(accountSettings, &AccountSettings::showIssuesList, this, &SettingsDialog::showIssuesList);
+    _actionGroup->addAction(accountAction);
+    //2018-11-27 liuwentao 暂时注释掉账户按钮选项页的内容
+    _actionGroupWidgets.insert(accountAction, accountSettings);
+
+    _actionForAccount.insert(s->account().data(), accountAction);
+	//hjt 不清楚是否注释
+    //accountAction->trigger();
+
+    //connect(accountSettings, &AccountSettings::folderChanged, _gui, &ownCloudGui::slotFoldersChanged);
+    //connect(accountSettings, &AccountSettings::openFolderAlias,
+    //    _gui, &ownCloudGui::slotFolderOpenAction);
+    //connect(accountSettings, &AccountSettings::showIssuesList, this, &SettingsDialog::showIssuesList);
+
     connect(s->account().data(), &Account::accountChangedAvatar, this, &SettingsDialog::slotAccountAvatarChanged);
     connect(s->account().data(), &Account::accountChangedDisplayName, this, &SettingsDialog::slotAccountDisplayNameChanged);
 
     // Refresh immediatly when getting online
     connect(s, &AccountState::isConnectedChanged, this, &SettingsDialog::slotRefreshActivityAccountStateSender);
-
-    activityAdded(s);
+    //2018-11-27 liuwentao 注释掉切换到客户端动态标签页的按钮
+    //activityAdded(s);
     slotRefreshActivity(s);
 }
 

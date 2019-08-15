@@ -99,6 +99,7 @@ void CookieJar::clearSessionCookies()
 
 void CookieJar::save(const QString &fileName)
 {
+    //liuwentao 这里是把cookie保存成加密文件的地方
     QFile file;
     file.setFileName(fileName);
     qCDebug(lcCookieJar) << fileName;

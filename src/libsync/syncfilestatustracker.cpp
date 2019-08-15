@@ -20,6 +20,10 @@
 #include "common/asserts.h"
 
 #include <QLoggingCategory>
+//liuwentao 添加自定义覆盖图标功能所需要的头文件
+#include <stdio.h>
+#include <io.h>
+#include "filesystem.h"
 
 namespace OCC {
 
@@ -312,12 +316,25 @@ SyncFileStatus SyncFileStatusTracker::resolveSyncAndErrorStatus(const QString &r
         SyncFileStatus::SyncFileStatusTag problemStatus = lookupProblem(relativePath, _syncProblems);
         if (problemStatus != SyncFileStatus::StatusNone)
             status.set(problemStatus);
+        //liuwentao 判断项目文件夹内是否有 CLOSE 文件，用于判断该文件夹是否为结项
+        //先判断当前的相对路径是不是就是结项提示文件本身，如果是则设置该文件隐藏，如果不是则判断路径是否为项目文件夹本身
+        if (relativePath.endsWith("/CLOSE_PROJECT_TAG_FILE")) {
+            FileSystem::setFileHidden(getSystemDestination(relativePath), true);
+        } else {
+            QByteArray ba = QString(getSystemDestination(relativePath) + "/CLOSE_PROJECT_TAG_FILE").toLocal8Bit();
+            char *Path = ba.data();
+            if (_access(Path, 0) != -1) {
+                status.set(SyncFileStatus::StatusClose);
+                FileSystem::setFileHidden(getSystemDestination(relativePath) + "/CLOSE_PROJECT_TAG_FILE", true);
+            }
+        }
     }
 
     ASSERT(sharedFlag != UnknownShared,
         "The shared status needs to have been fetched from a SyncFileItem or the DB at this point.");
-    if (sharedFlag == Shared)
-        status.setShared(true);
+    //liuwentao 注释掉判断是否是分享类型的文件路径
+    //if (sharedFlag == Shared)
+    //    status.setShared(true);
 
     return status;
 }

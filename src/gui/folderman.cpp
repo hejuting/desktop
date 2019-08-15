@@ -1366,6 +1366,11 @@ bool FolderMan::ignoreHiddenFiles() const
         // Currently no folders in the manager -> return default
         return false;
     }
+    //liuwentao 修改为默认同步隐藏文件
+    foreach (Folder *folder, _folderMap) {
+        folder->setIgnoreHiddenFiles(false);
+        folder->saveToSettings();
+    }
     // Since the hiddenFiles settings is the same for all folders, just return the settings of the first folder
     return _folderMap.begin().value()->ignoreHiddenFiles();
 }

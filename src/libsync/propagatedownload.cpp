@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) by Olivier Goffart <ogoffart@owncloud.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -554,7 +554,10 @@ void PropagateDownloadFile::slotGetFinished()
     ASSERT(job);
 
     QNetworkReply::NetworkError err = job->reply()->error();
-    if (err != QNetworkReply::NoError) {
+    //liuwentao 未做标记，但是新增了此句，也不知道为啥┓( ´∀` )┏
+	_item->_httpErrorCode = job->reply()->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    //liuwentao 请求被修改过的文件
+    if (err != QNetworkReply::NoError || _item->_httpErrorCode == 304) {
         _item->_httpErrorCode = job->reply()->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
 
         // If we sent a 'Range' header and get 416 back, we want to retry

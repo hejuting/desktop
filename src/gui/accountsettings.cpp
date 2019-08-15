@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) by Daniel Molkentin <danimo@owncloud.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -124,36 +124,41 @@ AccountSettings::AccountSettings(AccountState *accountState, QWidget *parent)
     _model->setParent(this);
     FolderStatusDelegate *delegate = new FolderStatusDelegate;
     delegate->setParent(this);
-
-    ui->_folderList->header()->hide();
-    ui->_folderList->setItemDelegate(delegate);
-    ui->_folderList->setModel(_model);
+    //liuwentao 隐藏掉显示文件夹list的区域
+    //ui->_folderList->header()->hide();
+    //ui->_folderList->setItemDelegate(delegate);
+    //ui->_folderList->setModel(_model);
 #if defined(Q_OS_MAC)
     ui->_folderList->setMinimumWidth(400);
 #else
     ui->_folderList->setMinimumWidth(300);
 #endif
-    new ToolTipUpdater(ui->_folderList);
+    //liuwentao **没有做标记，但是注释掉了，也不知道为啥┓( ´∀` )┏
+    /*new ToolTipUpdater(ui->_folderList);
 
     auto mouseCursorChanger = new MouseCursorChanger(this);
     mouseCursorChanger->folderList = ui->_folderList;
     mouseCursorChanger->model = _model;
     ui->_folderList->setMouseTracking(true);
     ui->_folderList->setAttribute(Qt::WA_Hover, true);
-    ui->_folderList->installEventFilter(mouseCursorChanger);
+    ui->_folderList->installEventFilter(mouseCursorChanger);*/
 
     createAccountToolbox();
-    connect(AccountManager::instance(), &AccountManager::accountAdded,
+    //liuwentao **没有做标记，但是注释掉了，也不知道为啥┓( ´∀` )┏
+    /*connect(AccountManager::instance(), &AccountManager::accountAdded,
         this, &AccountSettings::slotAccountAdded);
     connect(ui->_folderList, &QWidget::customContextMenuRequested,
         this, &AccountSettings::slotCustomContextMenuRequested);
     connect(ui->_folderList, &QAbstractItemView::clicked,
         this, &AccountSettings::slotFolderListClicked);
     connect(ui->_folderList, &QTreeView::expanded, this, &AccountSettings::refreshSelectiveSyncStatus);
-    connect(ui->_folderList, &QTreeView::collapsed, this, &AccountSettings::refreshSelectiveSyncStatus);
+    connect(ui->_folderList, &QTreeView::collapsed, this, &AccountSettings::refreshSelectiveSyncStatus);*/
+
     connect(ui->selectiveSyncNotification, &QLabel::linkActivated,
         this, &AccountSettings::slotLinkActivated);
-    connect(_model, &FolderStatusModel::suggestExpand, ui->_folderList, &QTreeView::expand);
+
+	//liuwentao **没有做标记，但是注释掉了，也不知道为啥┓( ´∀` )┏
+    //connect(_model, &FolderStatusModel::suggestExpand, ui->_folderList, &QTreeView::expand);
     connect(_model, &FolderStatusModel::dirtyChanged, this, &AccountSettings::refreshSelectiveSyncStatus);
     refreshSelectiveSyncStatus();
     connect(_model, &QAbstractItemModel::rowsInserted,
@@ -211,9 +216,10 @@ void AccountSettings::createAccountToolbox()
 
     connect(menu, &QMenu::aboutToShow, this, &AccountSettings::slotMenuBeforeShow);
 
-    _addAccountAction = new QAction(tr("Add new"), this);
-    menu->addAction(_addAccountAction);
-    connect(_addAccountAction, &QAction::triggered, this, &AccountSettings::slotOpenAccountWizard);
+	//liuwentao 注释掉连接状态页 账户按钮二级菜单中的新增按钮
+    //_addAccountAction = new QAction(tr("Add new"), this);
+    //menu->addAction(_addAccountAction);
+    //connect(_addAccountAction, &QAction::triggered, this, &AccountSettings::slotOpenAccountWizard);
 
     _toggleSignInOutAction = new QAction(tr("Log out"), this);
     connect(_toggleSignInOutAction, &QAction::triggered, this, &AccountSettings::slotToggleSignInState);
@@ -227,7 +233,8 @@ void AccountSettings::createAccountToolbox()
     ui->_accountToolbox->setMenu(menu);
     ui->_accountToolbox->setPopupMode(QToolButton::InstantPopup);
 
-    slotAccountAdded(_accountState);
+	//liuwentao 注释掉连接状态页 账户按钮二级菜单中的新增按钮
+    //slotAccountAdded(_accountState);
 }
 
 
@@ -990,19 +997,20 @@ void AccountSettings::slotAccountStateChanged()
     }
 
     /* Allow to expand the item if the account is connected. */
-    ui->_folderList->setItemsExpandable(state == AccountState::Connected);
+    //liuwentao 注释掉显示文件夹list的区域
+    //ui->_folderList->setItemsExpandable(state == AccountState::Connected);
 
-    if (state != AccountState::Connected) {
-        /* check if there are expanded root items, if so, close them */
-        int i;
-        for (i = 0; i < _model->rowCount(); ++i) {
-            if (ui->_folderList->isExpanded(_model->index(i)))
-                ui->_folderList->setExpanded(_model->index(i), false);
-        }
-    } else if (_model->isDirty()) {
-        // If we connect and have pending changes, show the list.
-        doExpand();
-    }
+    //if (state != AccountState::Connected) {
+    //    /* check if there are expanded root items, if so, close them */
+    //    int i;
+    //    for (i = 0; i < _model->rowCount(); ++i) {
+    //        if (ui->_folderList->isExpanded(_model->index(i)))
+    //            ui->_folderList->setExpanded(_model->index(i), false);
+    //    }
+    //} else if (_model->isDirty()) {
+    //    // If we connect and have pending changes, show the list.
+    //    doExpand();
+    //}
 
     // Disabling expansion of folders might require hiding the selective
     // sync user interface buttons.
@@ -1192,7 +1200,8 @@ bool AccountSettings::event(QEvent *e)
         // Expand the folder automatically only if there's only one, see #4283
         // The 2 is 1 folder + 1 'add folder' button
         if (_model->rowCount() <= 2) {
-            ui->_folderList->setExpanded(_model->index(0, 0), true);
+            //liuwentao 注释掉显示文件夹list的区域
+            //ui->_folderList->setExpanded(_model->index(0, 0), true);
         }
     }
     return QWidget::event(e);

@@ -36,6 +36,8 @@ public:
         StatusWarning,
         StatusUpToDate,
         StatusError,
+        //liuwentao 添加新的覆盖图标类型
+        StatusClose
     };
 
     SyncFileStatus();

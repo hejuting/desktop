@@ -76,6 +76,15 @@ STDAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, void **ppv)
     if (!SUCCEEDED(hResult)) { return hResult; }
     if (IsEqualCLSID(guid, rclsid)) { return CreateFactory(riid, ppv, State_Warning); }
 
+	//liuwentao 添加新的覆盖图标类型
+    hResult = CLSIDFromString(OVERLAY_GUID_CLOSE, (LPCLSID)&guid);
+    if (!SUCCEEDED(hResult)) {
+        return hResult;
+    }
+    if (IsEqualCLSID(guid, rclsid)) {
+        return CreateFactory(riid, ppv, State_Close);
+    }
+
     return CLASS_E_CLASSNOTAVAILABLE;
 }
 
@@ -155,6 +164,11 @@ HRESULT _stdcall DllRegisterServer(void)
     hResult = RegisterCLSID(OVERLAY_GUID_SYNC, OVERLAY_NAME_SYNC, szModule);
     if (!SUCCEEDED(hResult)) { return hResult; }
     hResult = RegisterCLSID(OVERLAY_GUID_WARNING, OVERLAY_NAME_WARNING, szModule);
+    //liuwentao 添加新的覆盖图标类型
+    if (!SUCCEEDED(hResult)) {
+        return hResult;
+    }
+    hResult = RegisterCLSID(OVERLAY_GUID_CLOSE, OVERLAY_NAME_CLOSE, szModule);
 
     return hResult;
 }
@@ -180,6 +194,11 @@ STDAPI DllUnregisterServer(void)
     hResult = UnregisterCLSID(OVERLAY_GUID_SYNC, OVERLAY_NAME_SYNC);
     if (!SUCCEEDED(hResult)) { return hResult; }
     hResult = UnregisterCLSID(OVERLAY_GUID_WARNING, OVERLAY_NAME_WARNING);
+    //liuwentao 添加新的覆盖图标类型
+    if (!SUCCEEDED(hResult)) {
+        return hResult;
+    }
+    hResult = UnregisterCLSID(OVERLAY_GUID_CLOSE, OVERLAY_NAME_CLOSE);
 
     return hResult;
 }

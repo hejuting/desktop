@@ -70,10 +70,15 @@ QString SyncFileStatus::toSocketAPIString() const
     case StatusError:
         statusString = QLatin1String("ERROR");
         break;
+     //liuwentao 添加新的覆盖图标类型
+    case StatusClose:
+        statusString = QLatin1String("OKSWM");
+        break;
     }
-    if (canBeShared && _shared) {
-        statusString += QLatin1String("+SWM");
-    }
+    //liuwentao 注释掉判断是否是分享类型的文件路径
+    //if (canBeShared && _shared) {
+    //    statusString += QLatin1String("+SWM");
+    //}
 
     return statusString;
 }

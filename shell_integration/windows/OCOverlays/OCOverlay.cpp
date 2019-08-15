@@ -111,8 +111,12 @@ IFACEMETHODIMP OCOverlay::GetPriority(int *pPriority)
     switch (_state) {
     case State_OK:
         *pPriority = 0; break;
-    case State_OKShared:
-        *pPriority = 1; break;
+    //liuwentao 替换图标类型State_OKShared为State_Close
+    //case State_OKShared:
+    //    *pPriority = 1; break;
+    case State_Close:
+        *pPriority = 1;
+        break;
     case State_Warning:
         *pPriority = 2; break;
     case State_Sync:

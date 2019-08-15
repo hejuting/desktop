@@ -21,6 +21,8 @@
 #define OVERLAY_GUID_SYNC_SHARED    L"{0960F095-F328-48A3-B746-276B1E3C3722}"
 #define OVERLAY_GUID_WARNING        L"{0960F096-F328-48A3-B746-276B1E3C3722}"
 #define OVERLAY_GUID_WARNING_SHARED L"{0960F097-F328-48A3-B746-276B1E3C3722}"
+//liuwentao 添加新的覆盖图标类型
+#define OVERLAY_GUID_CLOSE L"{0960F098-F328-48A3-B746-276B1E3C3722}"
 
 #define OVERLAY_GENERIC_NAME        L"ownCloud overlay handler"
 
@@ -33,6 +35,8 @@
 #define OVERLAY_NAME_SYNC_SHARED    L"  OCSyncShared"
 #define OVERLAY_NAME_WARNING        L"  OCWarning"
 #define OVERLAY_NAME_WARNING_SHARED L"  OCWarningShared"
+//liuwentao 添加新的覆盖图标类型
+#define OVERLAY_NAME_CLOSE L"  OCClose"
 
 #define REGISTRY_OVERLAY_KEY        L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\ShellIconOverlayIdentifiers"
 #define REGISTRY_CLSID              L"CLSID"

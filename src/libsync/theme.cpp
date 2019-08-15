@@ -225,6 +225,7 @@ QString Theme::defaultServerFolder() const
 
 QString Theme::helpUrl() const
 {
+    //liuwentao 这里是托盘菜单help选项打开的链接地址
 #ifdef APPLICATION_HELP_URL
     return QString::fromLatin1(APPLICATION_HELP_URL);
 #else

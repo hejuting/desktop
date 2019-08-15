@@ -233,6 +233,10 @@ RemotePathChecker::FileState RemotePathChecker::_StrToFileState(const std::wstri
     } else if (str == L"ERROR+SWM") {
         return StateError;
     }
+    //liuwentao 添加新的覆盖图标类型
+    else if (str == L"CLOSE") {
+        return StateClose;
+    }
 
     return StateNone;
 }

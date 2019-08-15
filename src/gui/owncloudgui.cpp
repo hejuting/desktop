@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) by Klaas Freitag <freitag@owncloud.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -379,6 +379,8 @@ void ownCloudGui::addAccountContextMenu(AccountStatePtr accountState, QMenu *men
     auto actionOpenoC = menu->addAction(browserOpen);
     actionOpenoC->setProperty(propertyAccountC, QVariant::fromValue(accountState->account()));
     QObject::connect(actionOpenoC, &QAction::triggered, this, &ownCloudGui::slotOpenOwnCloud);
+    //liuwentao 添加一个分割线
+    menu->addSeparator();
 
     FolderMan *folderMan = FolderMan::instance();
     bool firstFolder = true;
@@ -395,12 +397,12 @@ void ownCloudGui::addAccountContextMenu(AccountStatePtr accountState, QMenu *men
         } else {
             allPaused = false;
         }
-
-        if (firstFolder && !singleSyncFolder) {
-            firstFolder = false;
-            menu->addSeparator();
-            menu->addAction(tr("Managed Folders:"))->setDisabled(true);
-        }
+        //liuwentao 修改注释掉托盘菜单不需要的部分
+        //if (firstFolder && !singleSyncFolder) {
+        //    firstFolder = false;
+        //    menu->addSeparator();
+        //    menu->addAction(tr("Managed Folders:"))->setDisabled(true);
+        //}
 
         QAction *action = menu->addAction(tr("Open folder '%1'").arg(folder->shortGuiLocalPath()));
         auto alias = folder->alias();
@@ -659,25 +661,27 @@ void ownCloudGui::updateContextMenu()
             _contextMenu->addMenu(accountMenu);
 
             addAccountContextMenu(account, accountMenu, true);
-            fetchNavigationApps(account);
+			//liuwentao 未做标记，但是注释了，也不知道为啥┓( ´∀` )┏
+            //fetchNavigationApps(account);
         }
     } else if (accountList.count() == 1) {
         addAccountContextMenu(accountList.first(), _contextMenu.data(), false);
-        fetchNavigationApps(accountList.first());
+        //liuwentao 未做标记，但是注释了，也不知道为啥┓( ´∀` )┏
+        //fetchNavigationApps(accountList.first());
     }
 
     _contextMenu->addSeparator();
+    //liuwentao 修改注释掉托盘菜单不需要的部分
+    //_contextMenu->addAction(_actionStatus);
+    //if (isConfigured && atLeastOneConnected) {
+    //    _contextMenu->addMenu(_recentActionsMenu);
+    //}
 
-    _contextMenu->addAction(_actionStatus);
-    if (isConfigured && atLeastOneConnected) {
-        _contextMenu->addMenu(_recentActionsMenu);
-    }
+    //_contextMenu->addSeparator();
 
-    _contextMenu->addSeparator();
-
-    if (accountList.isEmpty()) {
-        _contextMenu->addAction(_actionNewAccountWizard);
-    }
+    //if (accountList.isEmpty()) {
+    //    _contextMenu->addAction(_actionNewAccountWizard);
+    //}
     _contextMenu->addAction(_actionSettings);
     if (!Theme::instance()->helpUrl().isEmpty()) {
         _contextMenu->addAction(_actionHelp);
